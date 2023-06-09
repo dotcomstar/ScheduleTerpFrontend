@@ -11,14 +11,22 @@ const NavBar = () => {
   return (
     <HStack padding="10px" justifyContent="space-between">
       <HStack>
-        <Image src={logo} boxSize="60px" />
-        <Button variant="link" {...buttonStyles}>
+        <Image borderRadius="15px" src={logo} boxSize="60px" />
+        <Button
+          variant="link"
+          {...buttonStyles}
+          onClick={() => alert("TODO: Create About page")}
+        >
           About
         </Button>
       </HStack>
       <HStack>
         <ColorModeSwitch />
-        <Button variant="link" {...buttonStyles}>
+        <Button
+          variant="link"
+          {...buttonStyles}
+          onClick={() => alert("TODO: Handle logins")}
+        >
           Login / Register
         </Button>
       </HStack>

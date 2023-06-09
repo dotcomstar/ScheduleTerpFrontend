@@ -7,6 +7,23 @@ const config: ThemeConfig = {
 const theme = extendTheme({
   config,
   colors: {
+    brand: {
+      red: "#ff5c6d",
+      tan: "#fff0cf",
+      blue: "#6daed4",
+      orange: "#ffb400",
+      gray: "#6c7e88",
+      50: "#ffe2e6",
+      100: "#ffb1b9",
+      200: "#ff7f8d",
+      300: "#ff5c6d",
+      400: "#fe1d32",
+      500: "#e50519",
+      600: "#b30013",
+      700: "#81000c",
+      800: "#4f0006",
+      900: "#200001",
+    },
     gray: {
       50: "#f9f9f9",
       100: "#ededed",
