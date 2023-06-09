@@ -4,7 +4,7 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <Grid templateAreas={{ base: `"nav" "main"` }}>
-      <GridItem area="nav">
+      <GridItem area="nav" bg="#ff5c6d">
         <NavBar />
       </GridItem>
       <GridItem area="main" bg="dodgerblue">
