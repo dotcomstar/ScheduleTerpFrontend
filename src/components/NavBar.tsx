@@ -11,7 +11,7 @@ const NavBar = () => {
   return (
     <HStack padding="10px" justifyContent="space-between">
       <HStack>
-        <Image borderRadius="15px" src={logo} boxSize="60px" />
+        <Image borderRadius="10px" src={logo} boxSize="60px" />
         <Button
           variant="link"
           {...buttonStyles}
