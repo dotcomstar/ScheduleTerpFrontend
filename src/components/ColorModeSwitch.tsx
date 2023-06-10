@@ -1,15 +1,23 @@
-import { HStack, useColorMode, Button } from "@chakra-ui/react";
-import { SunIcon, MoonIcon } from "@chakra-ui/icons";
+import { Stack } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Brightness4Icon from "@mui/icons-material/Brightness4";
+import Brightness7Icon from "@mui/icons-material/Brightness7";
 
 const ColorModeSwitch = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
-    <HStack>
-      <Button bg="inherit" color="white" size="lg" onClick={toggleColorMode}>
-        {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-      </Button>
-    </HStack>
+    <Stack direction="row">
+      <IconButton
+        sx={{ ml: 1 }}
+        onClick={colorMode.toggleColorMode}
+        color="inherit"
+      >
+        {theme.palette.mode === "dark" ? (
+          <Brightness7Icon />
+        ) : (
+          <Brightness4Icon />
+        )}
+      </IconButton>
+    </Stack>
   );
 };
 

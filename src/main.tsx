@@ -1,15 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import { useTheme, ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 import App from "./App.tsx";
-import theme from "./theme";
 import "./index.css";
+
+const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+const theme = useTheme();
+export const colorMode = React.useContext(ColorModeContext);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      {/* <ColorModeScript initialColorMode={theme.config.initialColorMode} /> */}
       <App />
-    </ChakraProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

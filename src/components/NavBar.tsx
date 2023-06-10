@@ -1,36 +1,46 @@
-import { Button, HStack, Image } from "@chakra-ui/react";
+import { Stack, Button, Box } from "@mui/material";
 import logo from "../assets/logo.webp";
 import ColorModeSwitch from "./ColorModeSwitch";
 
 const buttonStyles = {
   color: "white",
-  size: "lg",
+  fontSize: "lg",
 };
 
 const NavBar = () => {
   return (
-    <HStack padding="10px" justifyContent="space-between">
-      <HStack>
-        <Image borderRadius="10px" src={logo} boxSize="60px" />
+    <Stack direction="row" padding="10px" justifyContent="space-between">
+      <Stack direction="row">
+        <Box
+          component="img"
+          sx={{
+            height: 233,
+            width: 350,
+            maxHeight: { xs: 233, md: 167 },
+            maxWidth: { xs: 350, md: 250 },
+          }}
+          alt="Schedule Terp's logo"
+          src={logo}
+        />
         <Button
-          variant="link"
-          {...buttonStyles}
+          variant="text"
+          aria-label="About"
           onClick={() => alert("TODO: Create About page")}
         >
           About
         </Button>
-      </HStack>
-      <HStack>
+      </Stack>
+      <Stack direction="row">
         <ColorModeSwitch />
         <Button
-          variant="link"
-          {...buttonStyles}
+          variant="text"
+          aria-label="Login / Register"
           onClick={() => alert("TODO: Handle logins")}
         >
           Login / Register
         </Button>
-      </HStack>
-    </HStack>
+      </Stack>
+    </Stack>
   );
 };
 
