@@ -1,6 +1,6 @@
-import { Grid, GridItem } from "@chakra-ui/react";
-import NavBar from "./components/NavBar";
+import { Grid, GridItem, VStack } from "@chakra-ui/react";
 import CourseGeneratorForm from "./components/CourseGeneratorForm";
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
@@ -8,8 +8,13 @@ function App() {
       <GridItem area="nav" bg="brand.red">
         <NavBar />
       </GridItem>
-      <GridItem area="main" bg="brand.tan">
-        <CourseGeneratorForm />
+      <GridItem area="main">
+        <VStack my={2}>
+          <CourseGeneratorForm onSearch={(s) => console.log(s)} />
+          <CourseGeneratorForm onSearch={(s) => console.log(s)} />
+          <CourseGeneratorForm onSearch={(s) => console.log(s)} />
+          <CourseGeneratorForm onSearch={(s) => console.log(s)} />
+        </VStack>
       </GridItem>
     </Grid>
   );
