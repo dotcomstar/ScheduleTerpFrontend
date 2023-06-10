@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import styled from "@emotion/styled";
 import { useState } from "react";
-import Select, { SelectRenderer } from "react-dropdown-select";
-import { Stack } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
 
 interface SearchResult {
   name: string;
@@ -62,65 +62,59 @@ const CourseGeneratorForm = () => {
     staleTime: 10 * 1000,
   });
 
-  const onSearch = ({
-    props,
-    state,
-    methods,
-  }: SelectRenderer<SearchResult>) => {
-    if (state.dropdown) setInputValue(methods.safeString(state.search));
-    console.log({ props, state, methods });
-
-    return methods.sortBy(); //.filter((option) => option.type !== "course");
-  };
-
-  const StyledItem = styled.div`
-    padding: 10px;
-    color: #555;
-    border-radius: 3px;
-    margin: 3px;
-    cursor: pointer;
-    > div {
-      display: flex;
-      align-items: center;
-    }
-
-    input {
-      margin-right: 10px;
-    }
-
-    .Select-option.is-selected {
-      color: red;
-    }
-
-    :hover {
-      background: #f2f2f2;
-    }
-  `;
-
   return (
-    <Select
-      options={options.data || []}
-      labelField="name"
-      valueField="slug"
-      onChange={(v: SearchResult[]) => {
-        console.log(v); // TODO: Start verifying if it's a real course.
+    <Autocomplete
+      onInputChange={(_, value) => {
+        setInputValue(value);
       }}
-      clearable={true}
-      searchable={true}
-      closeOnSelect={true}
-      searchFn={onSearch}
-      itemRenderer={({ item, methods }) => (
-        <StyledItem>
-          <div onClick={() => methods.addItem(item)}>
-            <Stack direction="row">
-              {item.name + " "}
-              {item.type === "course" && (
-                <CourseDetails courseName={item.name} />
-              )}
-            </Stack>
-          </div>
-        </StyledItem>
+      options={options.data || []}
+      autoSelect={true}
+      filterOptions={(options) => options}
+      autoHighlight={true}
+      getOptionLabel={(option) => option.name}
+      // getOptionSelected={(option, value) => option.name === value.name}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={"Course "}
+          variant="outlined"
+          key={1}
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <>
+                {<span style={{ color: "gray" }}>Todo: Put info here</span>}
+                {params.InputProps.endAdornment}
+              </>
+            ),
+          }}
+          type="text"
+        />
       )}
+      renderOption={(props, option, { inputValue }) => {
+        const matches = match(option.name, inputValue, { insideWords: true });
+        const parts = parse(option.name, matches);
+
+        return (
+          <li {...props} key={option.name}>
+            <div>
+              {parts.map((part, index) => (
+                <span
+                  key={index}
+                  style={{
+                    fontWeight: part.highlight ? 700 : 400,
+                  }}
+                >
+                  {part.text}
+                </span>
+              ))}
+              {option.type === "course" && (
+                <CourseDetails courseName={option.name} />
+              )}
+            </div>
+          </li>
+        );
+      }}
     />
   );
 };

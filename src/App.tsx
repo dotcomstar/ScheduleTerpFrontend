@@ -57,7 +57,7 @@ function App() {
           <Grid item xs={12}>
             <NavBar />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6} ml={3}>
             <CourseGeneratorForm />
           </Grid>
         </Grid>

@@ -2,11 +2,6 @@ import { Stack, Button, Box } from "@mui/material";
 import logo from "../assets/logo.webp";
 import ColorModeSwitch from "./ColorModeSwitch";
 
-const buttonStyles = {
-  color: "white",
-  fontSize: "lg",
-};
-
 const NavBar = () => {
   return (
     <Stack
