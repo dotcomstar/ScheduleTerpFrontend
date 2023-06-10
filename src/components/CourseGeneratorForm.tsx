@@ -8,7 +8,7 @@ import match from "autosuggest-highlight/match";
 interface SearchResult {
   name: string;
   slug: string;
-  type: string; // "course" | "professor";
+  type: "course" | "professor";
 }
 
 interface CourseResult {
@@ -23,7 +23,7 @@ interface CourseResult {
 
 const CourseDetails = ({ courseName }: { courseName: string }) => {
   const courseDetails = useQuery<CourseResult, Error>({
-    queryKey: ["query", courseName],
+    queryKey: ["name", courseName],
     queryFn: () =>
       axios
         .get<CourseResult>("https://planetterp.com/api/v1/course", {
@@ -67,12 +67,13 @@ const CourseGeneratorForm = () => {
       onInputChange={(_, value) => {
         setInputValue(value);
       }}
-      options={options.data || []}
+      options={options?.data || []}
       autoSelect={true}
-      filterOptions={(options) => options}
+      filterOptions={(o: SearchResult[]) => o}
       autoHighlight={true}
-      getOptionLabel={(option) => option.name}
+      getOptionLabel={(option: SearchResult) => option.name}
       // getOptionSelected={(option, value) => option.name === value.name}
+      isOptionEqualToValue={(option, value) => option.name === value.name}
       renderInput={(params) => (
         <TextField
           {...params}
