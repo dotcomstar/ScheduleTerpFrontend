@@ -9,17 +9,21 @@ const buttonStyles = {
 
 const NavBar = () => {
   return (
-    <Stack direction="row" padding="10px" justifyContent="space-between">
+    <Stack
+      direction="row"
+      padding="10px"
+      justifyContent="space-between"
+      bgcolor="#ff5c6d" // TODO: Extract this to a variable
+    >
       <Stack direction="row">
         <Box
           component="img"
           sx={{
-            height: 233,
-            width: 350,
-            maxHeight: { xs: 233, md: 167 },
-            maxWidth: { xs: 350, md: 250 },
+            width: 60,
+            height: 60,
+            borderRadius: 2.6,
           }}
-          alt="Schedule Terp's logo"
+          alt="ScheduleTerp's logo"
           src={logo}
         />
         <Button
