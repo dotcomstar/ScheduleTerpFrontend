@@ -67,7 +67,9 @@ const CourseGeneratorForm = () => {
     state,
     methods,
   }: SelectRenderer<SearchResult>) => {
-    setInputValue(methods.safeString(state.search));
+    if (state.dropdown) setInputValue(methods.safeString(state.search));
+    console.log({ props, state, methods });
+
     return methods.sortBy(); //.filter((option) => option.type !== "course");
   };
 
@@ -86,6 +88,10 @@ const CourseGeneratorForm = () => {
       margin-right: 10px;
     }
 
+    .Select-option.is-selected {
+      color: red;
+    }
+
     :hover {
       background: #f2f2f2;
     }
@@ -97,8 +103,11 @@ const CourseGeneratorForm = () => {
       labelField="name"
       valueField="slug"
       onChange={(v: SearchResult[]) => {
-        console.log(v);
+        console.log(v); // TODO: Start verifying if it's a real course.
       }}
+      clearable={true}
+      searchable={true}
+      closeOnSelect={true}
       searchFn={onSearch}
       itemRenderer={({ item, methods }) => (
         <StyledItem>
