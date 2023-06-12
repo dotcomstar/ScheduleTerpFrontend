@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar";
 import { useMediaQuery } from "@mui/material";
 import React from "react";
 import CourseGeneratorForm from "./components/CourseGeneratorForm";
+import "./index.css";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -45,6 +46,12 @@ function App() {
             dark: "#ff5c6d",
             contrastText: "#fff",
           },
+          secondary: {
+            light: "#ff5c6d",
+            main: "#ff5c6d",
+            dark: "#ff5c6d",
+            contrastText: "#fff",
+          },
         },
       }),
     [mode]
@@ -57,7 +64,7 @@ function App() {
           <Grid item xs={12}>
             <NavBar />
           </Grid>
-          <Grid item xs={6} ml={3}>
+          <Grid item xs={12}>
             <CourseGeneratorForm />
           </Grid>
         </Grid>

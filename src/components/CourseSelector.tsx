@@ -4,17 +4,23 @@ import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import useSearch, { SearchResult } from "../hooks/useSearch";
 import CourseDetails from "./CourseDetails";
+import { Control } from "react-hook-form";
 
 interface Props {
   formId: number;
+  control: Control;
 }
 
-const CourseSelector = ({ formId }: Props) => {
+const CourseSelector = ({ formId, control }: Props) => {
   const [inputValue, setInputValue] = useState("");
   const options = useSearch(inputValue);
 
   return (
     <Autocomplete
+      sx={{
+        width: "100%",
+        px: { xs: "10%", sm: "20%" },
+      }}
       onInputChange={(_, value) => {
         setInputValue(value);
       }}
@@ -22,6 +28,7 @@ const CourseSelector = ({ formId }: Props) => {
       autoSelect={true}
       filterOptions={(o: SearchResult[]) => o}
       autoHighlight={true}
+      disableListWrap={true}
       getOptionLabel={(option: SearchResult) => option.name}
       // getOptionSelected={(option, value) => option.name === value.name}
       isOptionEqualToValue={(option, value) => option.name === value.name}
