@@ -35,9 +35,7 @@ const CourseSelector = ({ formId }: Props) => {
             ...params.InputProps,
             endAdornment: (
               <>
-                <CourseDetails
-                  courseName={params.inputProps.value?.toString() || ""}
-                />
+                {/* <CourseDetails courseName={selectedCourse} /> */}
                 {params.InputProps.endAdornment}
               </>
             ),

@@ -6,7 +6,7 @@ const CourseGeneratorForm = () => {
   return (
     <>
       {courseIds.map((courseId) => (
-        <Box py={0.5}>
+        <Box py={0.5} key={courseId}>
           <CourseSelector formId={courseId} />
         </Box>
       ))}
