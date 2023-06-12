@@ -38,7 +38,7 @@ const CourseGeneratorForm = () => {
             px: { xs: "10%", sm: "20%" },
           }}
         >
-          Submit
+          GENERATE
         </Button>
       </Stack>
     </form>

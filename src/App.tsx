@@ -1,8 +1,11 @@
 import {
+  Box,
   CssBaseline,
   Grid,
   PaletteMode,
+  Stack,
   ThemeProvider,
+  capitalize,
   createTheme,
 } from "@mui/material";
 import NavBar from "./components/NavBar";
@@ -50,7 +53,16 @@ function App() {
             light: "#ff5c6d",
             main: "#ff5c6d",
             dark: "#ff5c6d",
-            contrastText: "#fff",
+            contrastText: "#000",
+          },
+        },
+        typography: {
+          h1: {
+            padding: 0,
+            margin: 0,
+          },
+          button: {
+            textTransform: "none",
           },
         },
       }),
@@ -65,6 +77,16 @@ function App() {
             <NavBar />
           </Grid>
           <Grid item xs={12}>
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="center"
+              spacing={-3.4}
+              sx={{ pb: 3 }}
+            >
+              <h1>ScheduleTerps</h1>
+              <i>Generate a UMD schedule</i>
+            </Stack>
             <CourseGeneratorForm />
           </Grid>
         </Grid>
