@@ -5,7 +5,8 @@ import {
   PaletteMode,
   Stack,
   ThemeProvider,
-  capitalize,
+  Typography,
+  responsiveFontSizes,
   createTheme,
 } from "@mui/material";
 import NavBar from "./components/NavBar";
@@ -38,7 +39,7 @@ function App() {
   );
 
   // Update the theme only if the mode changes
-  const theme = React.useMemo(
+  let theme = React.useMemo(
     () =>
       createTheme({
         palette: {
@@ -57,9 +58,13 @@ function App() {
           },
         },
         typography: {
-          h1: {
+          h2: {
             padding: 0,
             margin: 0,
+            fontWeight: 450,
+          },
+          subtitle1: {
+            fontStyle: "italic",
           },
           button: {
             textTransform: "none",
@@ -68,6 +73,9 @@ function App() {
       }),
     [mode]
   );
+
+  theme = responsiveFontSizes(theme);
+
   return (
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
@@ -81,11 +89,12 @@ function App() {
               direction="column"
               justifyContent="center"
               alignItems="center"
-              spacing={-3.4}
               sx={{ pb: 3 }}
             >
-              <h1>ScheduleTerps</h1>
-              <i>Generate a UMD schedule</i>
+              <Typography variant="h2">ScheduleTerp</Typography>
+              <Typography variant="subtitle1">
+                Generate a UMD schedule
+              </Typography>
             </Stack>
             <CourseGeneratorForm />
           </Grid>
