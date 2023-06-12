@@ -12,7 +12,7 @@ export type FormValues = {
 };
 
 const CourseGeneratorForm = () => {
-  const courseIds = [1, 2, 3, 4];
+  const [courseIds, setCourseIds] = useState([1, 2, 3, 4]);
   const [data, setData] = useState<string[]>([]);
   const { handleSubmit, register, control } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
@@ -28,6 +28,14 @@ const CourseGeneratorForm = () => {
         {courseIds.map((courseId) => (
           <CourseSelector key={courseId} formId={courseId} control={control} />
         ))}
+
+        <Button
+          variant="text"
+          color="inherit"
+          onClick={() => setCourseIds([...courseIds, courseIds.length + 1])}
+        >
+          + Add class
+        </Button>
 
         <Button
           variant="contained"
