@@ -2,6 +2,7 @@ import { Button, Stack } from "@mui/material";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import CourseSelector from "./CourseSelector";
 import { SearchResult } from "../hooks/useSearch";
+import { useState } from "react";
 
 export type FormValues = {
   courses: SearchResult[];
@@ -39,7 +40,15 @@ const CourseGeneratorForm = () => {
     name: "courses", // unique name for your Field Array
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormValues> = (d: FormValues) => {
+    setData(
+      d.courses
+        .filter((course) => course.type === "course")
+        .map((course) => course)
+    );
+  };
+
+  const [data, setData] = useState<SearchResult[]>();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -63,7 +72,7 @@ const CourseGeneratorForm = () => {
           variant="text"
           color="inherit"
           onClick={() => {
-            append({ name: "", slug: "", type: "course" });
+            append({ name: "", slug: "", type: "professor" });
             console.log("Appending");
           }}
           sx={{
@@ -85,6 +94,7 @@ const CourseGeneratorForm = () => {
         >
           GENERATE
         </Button>
+        <p>{data?.map((d) => d.name + ", ")}</p>
       </Stack>
     </form>
   );

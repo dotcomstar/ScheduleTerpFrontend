@@ -20,7 +20,7 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
   const [value, setValue] = useState<SearchResult | null>({
     name: "",
     slug: "",
-    type: "course",
+    type: "professor",
   });
   const [debouncedInputValue] = useDebounce(inputValue, 200);
   const options = useSearch(debouncedInputValue);
@@ -66,7 +66,9 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
                 ),
               }}
               type="text"
-              {...register(`courses.${formIndex}`)}
+              {...register(`courses.${formIndex}`, {
+                setValueAs: (v) => value,
+              })}
             />
           )}
           renderOption={(props, option, { inputValue }) => {
