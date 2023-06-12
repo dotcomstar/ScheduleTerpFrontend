@@ -39,9 +39,8 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
             setInputValue(value);
           }}
           options={options?.data || []}
-          onChange={(e, value, reason) => {
+          onChange={(_, value) => {
             setValue(value);
-            console.log("Setting value: ", value);
           }}
           value={value}
           autoSelect={true}

@@ -8,7 +8,32 @@ export type FormValues = {
 };
 
 const CourseGeneratorForm = () => {
-  const { handleSubmit, control, register } = useForm<FormValues>();
+  const { handleSubmit, control, register } = useForm<FormValues>({
+    defaultValues: {
+      courses: [
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+      ],
+    },
+  });
   const { fields, append } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "courses", // unique name for your Field Array
