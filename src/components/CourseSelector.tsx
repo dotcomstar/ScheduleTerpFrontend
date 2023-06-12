@@ -6,6 +6,7 @@ import useSearch, { SearchResult } from "../hooks/useSearch";
 import CourseDetails from "./CourseDetails";
 import { Control, Controller } from "react-hook-form";
 import { FormValues } from "./CourseGeneratorForm";
+import { useDebounce } from "use-debounce";
 
 interface Props {
   formId: number;
@@ -14,7 +15,8 @@ interface Props {
 
 const CourseSelector = ({ formId, control }: Props) => {
   const [inputValue, setInputValue] = useState("");
-  const options = useSearch(inputValue);
+  const [debouncedValue] = useDebounce(inputValue, 200);
+  const options = useSearch(debouncedValue);
 
   return (
     <>

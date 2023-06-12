@@ -14,7 +14,7 @@ export type FormValues = {
 const CourseGeneratorForm = () => {
   const courseIds = [1, 2, 3, 4];
   const [data, setData] = useState<string[]>([]);
-  const { handleSubmit, register, reset, control } = useForm<FormValues>();
+  const { handleSubmit, register, control } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
   return (

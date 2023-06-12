@@ -14,7 +14,7 @@ export interface CourseResult {
 
 const useCourse = (courseName: string) =>
   useQuery<CourseResult, Error>({
-    queryKey: ["name", courseName],
+    queryKey: ["name", courseName.toLowerCase()],
     queryFn: () =>
       apiClient
         .get<CourseResult>("/course", {
@@ -24,6 +24,7 @@ const useCourse = (courseName: string) =>
         })
         .then((res) => res.data),
     enabled: !!courseName,
+    refetchOnWindowFocus: false,
     staleTime: 2 * 7 * 24 * 60 * 60 * 1000, // 2w
   });
 

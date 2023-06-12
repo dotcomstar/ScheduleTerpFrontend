@@ -1,18 +1,17 @@
 import {
-  Box,
   CssBaseline,
   Grid,
   PaletteMode,
   Stack,
   ThemeProvider,
   Typography,
-  responsiveFontSizes,
   createTheme,
+  responsiveFontSizes,
+  useMediaQuery,
 } from "@mui/material";
-import NavBar from "./components/NavBar";
-import { useMediaQuery } from "@mui/material";
 import React from "react";
 import CourseGeneratorForm from "./components/CourseGeneratorForm";
+import NavBar from "./components/NavBar";
 import "./index.css";
 
 export const ColorModeContext = React.createContext({

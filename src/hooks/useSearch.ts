@@ -10,7 +10,7 @@ export interface SearchResult {
 
 const useSearch = (inputValue: string) =>
   useQuery<SearchResult[], Error>({
-    queryKey: ["query", inputValue],
+    queryKey: ["query", inputValue.toLowerCase()],
     queryFn: () =>
       apiClient
         .get<SearchResult[]>("/search", {
@@ -24,6 +24,7 @@ const useSearch = (inputValue: string) =>
         ),
     // only fetch search terms longer than 2 characters
     enabled: inputValue.length > 2,
+    refetchOnWindowFocus: false,
     staleTime: 10 * 1000, // 10s
   });
 
