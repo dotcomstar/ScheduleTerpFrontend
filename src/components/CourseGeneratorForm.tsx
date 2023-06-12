@@ -33,6 +33,10 @@ const CourseGeneratorForm = () => {
           variant="text"
           color="inherit"
           onClick={() => setCourseIds([...courseIds, courseIds.length + 1])}
+          sx={{
+            width: { xs: "80%", sm: "60%" },
+            px: { xs: "10%", sm: "20%" },
+          }}
         >
           + Add class
         </Button>
