@@ -5,11 +5,11 @@ const CourseGeneratorForm = () => {
   const courseIds = [1, 2, 3, 4];
   return (
     <>
-      {courseIds.map((id) => {
+      {courseIds.map((courseId) => (
         <Box py={0.5}>
-          <CourseSelector formId={id} />
-        </Box>;
-      })}
+          <CourseSelector formId={courseId} />
+        </Box>
+      ))}
     </>
   );
 };

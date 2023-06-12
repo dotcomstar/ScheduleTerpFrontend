@@ -8,7 +8,7 @@ import {
 import NavBar from "./components/NavBar";
 import { useMediaQuery } from "@mui/material";
 import React from "react";
-import CourseDetails from "./components/CourseDetails";
+import CourseGeneratorForm from "./components/CourseGeneratorForm";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -58,7 +58,7 @@ function App() {
             <NavBar />
           </Grid>
           <Grid item xs={6} ml={3}>
-            <CourseDetails courseName="CMSC216" />
+            <CourseGeneratorForm />
           </Grid>
         </Grid>
       </ThemeProvider>
