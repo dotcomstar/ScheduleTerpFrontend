@@ -1,122 +1,100 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { Button, Stack } from "@mui/material";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import CourseSelector from "./CourseSelector";
+import { SearchResult } from "../hooks/useSearch";
 import { useState } from "react";
-import { Autocomplete, TextField } from "@mui/material";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
 
-interface SearchResult {
-  name: string;
-  slug: string;
-  type: "course" | "professor";
-}
-
-interface CourseResult {
-  department: string;
-  course_number: string;
-  title: string;
-  description: string;
-  credits: number;
-  average_gpa: number;
-  professors: string[];
-}
-
-const CourseDetails = ({ courseName }: { courseName: string }) => {
-  const courseDetails = useQuery<CourseResult, Error>({
-    queryKey: ["name", courseName],
-    queryFn: () =>
-      axios
-        .get<CourseResult>("https://planetterp.com/api/v1/course", {
-          params: {
-            name: courseName,
-          },
-        })
-        .then((res) => res.data),
-    enabled: !!courseName,
-    staleTime: Infinity,
-  });
-  return (
-    <span style={{ color: "gray" }}>
-      {courseDetails?.data?.title ? " - " + courseDetails?.data?.title : ""}
-    </span>
-  );
+export type FormValues = {
+  courses: SearchResult[];
 };
 
 const CourseGeneratorForm = () => {
-  const [inputValue, setInputValue] = useState("");
-  const options = useQuery<SearchResult[], Error>({
-    queryKey: ["query", inputValue],
-    queryFn: () =>
-      axios
-        .get<SearchResult[]>("https://planetterp.com/api/v1/search", {
-          params: {
-            limit: 5,
-            query: inputValue,
-          },
-        })
-        .then((res) =>
-          (res.data || []).filter(({ type }) => type === "course")
-        ),
-    // only fetch search terms longer than 2 characters
-    enabled: inputValue.length > 2,
-    staleTime: 10 * 1000,
+  const { handleSubmit, control, register } = useForm<FormValues>({
+    defaultValues: {
+      courses: [
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+        {
+          name: "",
+          slug: "",
+          type: "professor",
+        },
+      ],
+    },
+  });
+  const { fields, append } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "courses", // unique name for your Field Array
   });
 
-  return (
-    <Autocomplete
-      onInputChange={(_, value) => {
-        setInputValue(value);
-      }}
-      options={options?.data || []}
-      autoSelect={true}
-      filterOptions={(o: SearchResult[]) => o}
-      autoHighlight={true}
-      getOptionLabel={(option: SearchResult) => option.name}
-      // getOptionSelected={(option, value) => option.name === value.name}
-      isOptionEqualToValue={(option, value) => option.name === value.name}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={"Course "}
-          variant="outlined"
-          key={1}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {<span style={{ color: "gray" }}>Todo: Put info here</span>}
-                {params.InputProps.endAdornment}
-              </>
-            ),
-          }}
-          type="text"
-        />
-      )}
-      renderOption={(props, option, { inputValue }) => {
-        const matches = match(option.name, inputValue, { insideWords: true });
-        const parts = parse(option.name, matches);
+  const onSubmit: SubmitHandler<FormValues> = (d: FormValues) => {
+    setData(
+      d.courses
+        .filter((course) => course.type === "course")
+        .map((course) => course)
+    );
+  };
 
-        return (
-          <li {...props} key={option.name}>
-            <div>
-              {parts.map((part, index) => (
-                <span
-                  key={index}
-                  style={{
-                    fontWeight: part.highlight ? 700 : 400,
-                  }}
-                >
-                  {part.text}
-                </span>
-              ))}
-              {option.type === "course" && (
-                <CourseDetails courseName={option.name} />
-              )}
-            </div>
-          </li>
-        );
-      }}
-    />
+  const [data, setData] = useState<SearchResult[]>();
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+      >
+        {fields.map((field, index) => (
+          <CourseSelector
+            key={field.id}
+            formId={field.id}
+            formIndex={index}
+            control={control}
+            register={register}
+          />
+        ))}
+
+        <Button
+          variant="text"
+          color="inherit"
+          onClick={() => {
+            append({ name: "", slug: "", type: "professor" });
+            console.log("Appending");
+          }}
+          sx={{
+            width: { xs: "80%", sm: "60%" },
+          }}
+        >
+          + Add class
+        </Button>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          type="submit"
+          sx={{
+            width: { xs: "80%", sm: "60%" },
+          }}
+        >
+          GENERATE
+        </Button>
+        <p>{data?.map((d) => d.name + ", ")}</p>
+      </Stack>
+    </form>
   );
 };
 
