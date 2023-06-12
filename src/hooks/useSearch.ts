@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import apiClient from "../services/api-client";
+// import ms from "ms";
 
 export interface SearchResult {
   name: string;
@@ -24,7 +24,7 @@ const useSearch = (inputValue: string) =>
         ),
     // only fetch search terms longer than 2 characters
     enabled: inputValue.length > 2,
-    staleTime: 10 * 1000,
+    staleTime: 10 * 1000, // 10s
   });
 
 export default useSearch;

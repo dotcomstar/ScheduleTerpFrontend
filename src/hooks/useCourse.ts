@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import apiClient from "../services/api-client";
+// import ms from "ms";
 
 export interface CourseResult {
   department: string;
@@ -24,7 +24,7 @@ const useCourse = (courseName: string) =>
         })
         .then((res) => res.data),
     enabled: !!courseName,
-    staleTime: Infinity,
+    staleTime: 2 * 7 * 24 * 60 * 60 * 1000, // 2w
   });
 
 export default useCourse;
