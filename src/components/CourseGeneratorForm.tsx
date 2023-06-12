@@ -2,19 +2,20 @@ import { Button, Stack } from "@mui/material";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CourseSelector from "./CourseSelector";
+import { SearchResult } from "../hooks/useSearch";
 
 export type FormValues = {
-  course1: string;
-  course2?: string;
-  course3?: string;
-  course4?: string;
-  course5?: string;
+  course1: SearchResult;
+  course2?: SearchResult;
+  course3?: SearchResult;
+  course4?: SearchResult;
+  course5?: SearchResult;
 };
 
 const CourseGeneratorForm = () => {
   const [courseIds, setCourseIds] = useState([1, 2, 3, 4]);
   const [data, setData] = useState<string[]>([]);
-  const { handleSubmit, register, control } = useForm<FormValues>();
+  const { handleSubmit, control } = useForm<FormValues>();
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
   return (
