@@ -32,8 +32,9 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
       render={() => (
         <Autocomplete
           sx={{
-            width: "100%",
-            px: { xs: "10%", sm: "20%" },
+            // width: "100%",
+
+            width: { xs: "80%", sm: "60%" },
           }}
           onInputChange={(_, value) => {
             setInputValue(value);
@@ -67,7 +68,7 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
               }}
               type="text"
               {...register(`courses.${formIndex}`, {
-                setValueAs: (v) => value,
+                setValueAs: () => value,
               })}
             />
           )}

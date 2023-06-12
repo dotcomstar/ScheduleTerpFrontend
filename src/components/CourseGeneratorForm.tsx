@@ -56,7 +56,7 @@ const CourseGeneratorForm = () => {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        spacing={2}
+        spacing={1}
       >
         {fields.map((field, index) => (
           <CourseSelector
@@ -77,7 +77,6 @@ const CourseGeneratorForm = () => {
           }}
           sx={{
             width: { xs: "80%", sm: "60%" },
-            px: { xs: "10%", sm: "20%" },
           }}
         >
           + Add class
@@ -89,7 +88,6 @@ const CourseGeneratorForm = () => {
           type="submit"
           sx={{
             width: { xs: "80%", sm: "60%" },
-            px: { xs: "10%", sm: "20%" },
           }}
         >
           GENERATE
