@@ -4,16 +4,18 @@ import parse from "autosuggest-highlight/parse";
 import match from "autosuggest-highlight/match";
 import useSearch, { SearchResult } from "../hooks/useSearch";
 import CourseDetails from "./CourseDetails";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { FormValues } from "./CourseGeneratorForm";
 import { useDebounce } from "use-debounce";
 
 interface Props {
-  formId: number;
+  formIndex: number;
+  formId: string;
   control: Control<FormValues, any>;
+  register: UseFormRegister<FormValues>;
 }
 
-const CourseSelector = ({ formId, control }: Props) => {
+const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
   const [inputValue, setInputValue] = useState("");
   const [value, setValue] = useState<SearchResult | null>({
     name: "",
@@ -26,7 +28,7 @@ const CourseSelector = ({ formId, control }: Props) => {
   return (
     <Controller
       control={control}
-      name={"Course" + formId}
+      name={`courses.${formIndex}`}
       render={() => (
         <Autocomplete
           sx={{
@@ -39,7 +41,7 @@ const CourseSelector = ({ formId, control }: Props) => {
           options={options?.data || []}
           onChange={(e, value, reason) => {
             setValue(value);
-            console.log(value);
+            console.log("Setting value: ", value);
           }}
           value={value}
           autoSelect={true}
@@ -52,7 +54,7 @@ const CourseSelector = ({ formId, control }: Props) => {
           renderInput={(params) => (
             <TextField
               {...params}
-              label={"Course " + formId.toString()}
+              label={"Course " + (formIndex + 1).toString()}
               variant="outlined"
               key={formId}
               InputProps={{
@@ -65,6 +67,7 @@ const CourseSelector = ({ formId, control }: Props) => {
                 ),
               }}
               type="text"
+              {...register(`courses.${formIndex}`)}
             />
           )}
           renderOption={(props, option, { inputValue }) => {

@@ -1,21 +1,19 @@
 import { Button, Stack } from "@mui/material";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import CourseSelector from "./CourseSelector";
 import { SearchResult } from "../hooks/useSearch";
 
 export type FormValues = {
-  course1: SearchResult;
-  course2?: SearchResult;
-  course3?: SearchResult;
-  course4?: SearchResult;
-  course5?: SearchResult;
+  courses: SearchResult[];
 };
 
 const CourseGeneratorForm = () => {
-  const [courseIds, setCourseIds] = useState([1, 2, 3, 4]);
-  const [data, setData] = useState<string[]>([]);
-  const { handleSubmit, control } = useForm<FormValues>();
+  const { handleSubmit, control, register } = useForm<FormValues>();
+  const { fields, append } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "courses", // unique name for your Field Array
+  });
+
   const onSubmit: SubmitHandler<FormValues> = (data) => console.log(data);
 
   return (
@@ -26,14 +24,23 @@ const CourseGeneratorForm = () => {
         alignItems="center"
         spacing={2}
       >
-        {courseIds.map((courseId) => (
-          <CourseSelector key={courseId} formId={courseId} control={control} />
+        {fields.map((field, index) => (
+          <CourseSelector
+            key={field.id}
+            formId={field.id}
+            formIndex={index}
+            control={control}
+            register={register}
+          />
         ))}
 
         <Button
           variant="text"
           color="inherit"
-          onClick={() => setCourseIds([...courseIds, courseIds.length + 1])}
+          onClick={() => {
+            append({ name: "", slug: "", type: "course" });
+            console.log("Appending");
+          }}
           sx={{
             width: { xs: "80%", sm: "60%" },
             px: { xs: "10%", sm: "20%" },
