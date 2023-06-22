@@ -6,15 +6,16 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
-import { DummyHelperText, LoginFormValues } from "./LoginForm";
+import { Control, Controller, FieldPath, FieldValues } from "react-hook-form";
+import { DummyHelperText } from "./DummyHelperText";
 import { useState } from "react";
 
-interface Props {
-  control: Control<LoginFormValues>;
+interface Props<T extends FieldValues> {
+  control: Control<T>;
+  name: FieldPath<T>;
 }
 
-const PasswordField = ({ control }: Props) => {
+const PasswordField = <T extends FieldValues>({ control, name }: Props<T>) => {
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
@@ -30,7 +31,7 @@ const PasswordField = ({ control }: Props) => {
     >
       <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
       <Controller
-        name="password"
+        name={name}
         control={control}
         render={({ field }) => (
           <>

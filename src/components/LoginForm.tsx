@@ -1,27 +1,12 @@
-import { Button, FormHelperText, Stack, useFormControl } from "@mui/material";
-import { useMemo } from "react";
+import { Button, Stack } from "@mui/material";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useAuthStore from "../auth/store";
 import PasswordField from "./PasswordField";
-import UsernameField from "./UsernameField";
+import UserInputField from "./UserInputField";
 
 export interface LoginFormValues {
   username: string;
   password: string;
-}
-
-export function DummyHelperText() {
-  const { focused, filled } = useFormControl() || {};
-
-  const helperText = useMemo(() => {
-    if (focused || filled) {
-      return "Don't put real info here! This is a dummy form";
-    }
-
-    return "";
-  }, [focused, filled]);
-
-  return <FormHelperText>{helperText}</FormHelperText>;
 }
 
 const LoginForm = () => {
@@ -44,8 +29,12 @@ const LoginForm = () => {
           alignItems="center"
           spacing={1}
         >
-          <UsernameField control={control} />
-          <PasswordField control={control} />
+          <UserInputField<LoginFormValues>
+            name="username"
+            label="Username"
+            control={control}
+          />
+          <PasswordField<LoginFormValues> name="password" control={control} />
           <Button
             variant="contained"
             color="secondary"
