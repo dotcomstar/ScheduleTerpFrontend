@@ -1,8 +1,10 @@
 import { Stack, Button, Box } from "@mui/material";
 import logo from "../assets/logo.webp";
 import ColorModeSwitch from "./ColorModeSwitch";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
   return (
     <Stack
       direction="row"
@@ -20,11 +22,12 @@ const NavBar = () => {
           }}
           alt="ScheduleTerp's logo"
           src={logo}
+          onClick={() => navigate("/")}
         />
         <Button
           variant="text"
           aria-label="About"
-          onClick={() => alert("TODO: Create About page")}
+          onClick={() => navigate("/about")}
         >
           About
         </Button>
@@ -34,7 +37,7 @@ const NavBar = () => {
         <Button
           variant="text"
           aria-label="Login / Register"
-          onClick={() => alert("TODO: Handle logins")}
+          onClick={() => navigate("/login")}
         >
           Login / Register
         </Button>
