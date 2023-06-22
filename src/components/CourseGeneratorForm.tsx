@@ -37,7 +37,7 @@ const CourseGeneratorForm = () => {
       ],
     },
   });
-  const { fields, append } = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "courses", // unique name for your Field Array
   });
@@ -71,19 +71,43 @@ const CourseGeneratorForm = () => {
           />
         ))}
 
-        <Button
-          variant="text"
-          color="inherit"
-          onClick={() => {
-            append({ name: "", slug: "", type: "professor" });
-            console.log("Appending");
-          }}
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          spacing={1}
           sx={{
             width: { xs: "80%", sm: "60%" },
           }}
         >
-          + Add class
-        </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => {
+              append({ name: "", slug: "", type: "professor" });
+              console.log("Appending");
+            }}
+            sx={{
+              width: "100%",
+            }}
+          >
+            + Add class
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => {
+              remove(fields.length - 1);
+              console.log("Removing");
+              console.log(fields);
+            }}
+            sx={{
+              width: "100%",
+            }}
+          >
+            - Remove class
+          </Button>
+        </Stack>
 
         <Button
           variant="contained"
