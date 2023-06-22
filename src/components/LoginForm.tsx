@@ -62,20 +62,10 @@ const LoginForm = () => {
             sx={{ m: 1, width: { xs: "60%", sm: "30%" } }}
             variant="outlined"
           >
-            <InputLabel htmlFor="outlined-adornment-username">
-              Username
-            </InputLabel>
+            <InputLabel htmlFor="outlined-username">Username</InputLabel>
             <OutlinedInput
-              id="outlined-adornment-username"
+              id="outlined-username"
               type="text"
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    edge="end"
-                  />
-                </InputAdornment>
-              }
               label="Username"
             />
             <DummyHelperText />
