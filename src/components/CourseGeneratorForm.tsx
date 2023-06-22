@@ -3,12 +3,14 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import CourseSelector from "./CourseSelector";
 import { SearchResult } from "../hooks/useSearch";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export type FormValues = {
   courses: SearchResult[];
 };
 
 const CourseGeneratorForm = () => {
+  const navigate = useNavigate();
   const { handleSubmit, control, register } = useForm<FormValues>({
     defaultValues: {
       courses: [
@@ -46,6 +48,7 @@ const CourseGeneratorForm = () => {
         .filter((course) => course.type === "course")
         .map((course) => course)
     );
+    navigate("/schedules");
   };
 
   const [data, setData] = useState<SearchResult[]>();

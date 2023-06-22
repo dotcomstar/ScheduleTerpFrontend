@@ -1,24 +1,23 @@
 import {
   CssBaseline,
-  Grid,
   PaletteMode,
-  Stack,
   ThemeProvider,
-  Typography,
   createTheme,
   responsiveFontSizes,
   useMediaQuery,
 } from "@mui/material";
-import React from "react";
-import CourseGeneratorForm from "./components/CourseGeneratorForm";
-import NavBar from "./components/NavBar";
-import "./index.css";
+import React, { ReactNode } from "react";
+import "../index.css";
 
 export const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
 });
 
-function App() {
+interface Props {
+  children: ReactNode;
+}
+
+const ThemedLayout = ({ children }: Props) => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
   const [mode, setMode] = React.useState<PaletteMode>(
@@ -76,31 +75,15 @@ function App() {
   theme = responsiveFontSizes(theme);
 
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <NavBar />
-          </Grid>
-          <Grid item xs={12}>
-            <Stack
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              sx={{ pb: 3 }}
-            >
-              <Typography variant="h2">ScheduleTerp</Typography>
-              <Typography variant="subtitle1">
-                Generate a UMD schedule
-              </Typography>
-            </Stack>
-            <CourseGeneratorForm />
-          </Grid>
-        </Grid>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </>
   );
-}
+};
 
-export default App;
+export default ThemedLayout;
