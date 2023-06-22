@@ -7,6 +7,7 @@ import CourseDetails from "./CourseDetails";
 import { Control, Controller, UseFormRegister } from "react-hook-form";
 import { FormValues } from "./CourseGeneratorForm";
 import { useDebounce } from "use-debounce";
+import useCoursesStore from "../courses/store";
 
 interface Props {
   formIndex: number;
@@ -15,15 +16,18 @@ interface Props {
   register: UseFormRegister<FormValues>;
 }
 
-const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
+const CourseSelectorForm = ({
+  formIndex,
+  formId,
+  control,
+  register,
+}: Props) => {
   const [inputValue, setInputValue] = useState("");
-  const [value, setValue] = useState<SearchResult | null>({
-    name: "",
-    slug: "",
-    type: "professor",
-  });
   const [debouncedInputValue] = useDebounce(inputValue, 200);
   const options = useSearch(debouncedInputValue);
+
+  const courses = useCoursesStore((s) => s.courses);
+  const [value, setValue] = useState<SearchResult | null>(courses[formIndex]);
 
   return (
     <Controller
@@ -50,7 +54,7 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
           disableListWrap={true}
           getOptionLabel={(option: SearchResult) => option.name}
           // getOptionSelected={(option, value) => option.name === value.name}
-          isOptionEqualToValue={(option, value) => option.name === value.name}
+          isOptionEqualToValue={(option, value) => option.name === value?.name}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -104,4 +108,4 @@ const CourseSelector = ({ formIndex, formId, control, register }: Props) => {
   );
 };
 
-export default CourseSelector;
+export default CourseSelectorForm;
