@@ -1,9 +1,9 @@
 import { Button, Stack } from "@mui/material";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import CourseSelector from "./CourseSelector";
+import CourseSelectorForm from "./CourseSelectorForm";
 import { SearchResult } from "../hooks/useSearch";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useCoursesStore from "../courses/store";
 
 export type FormValues = {
   courses: SearchResult[];
@@ -11,30 +11,11 @@ export type FormValues = {
 
 const CourseGeneratorForm = () => {
   const navigate = useNavigate();
+  const { courses, setCourse, addCourse, removeCourse, resetCourses } =
+    useCoursesStore();
   const { handleSubmit, control, register } = useForm<FormValues>({
     defaultValues: {
-      courses: [
-        {
-          name: "",
-          slug: "",
-          type: "professor",
-        },
-        {
-          name: "",
-          slug: "",
-          type: "professor",
-        },
-        {
-          name: "",
-          slug: "",
-          type: "professor",
-        },
-        {
-          name: "",
-          slug: "",
-          type: "professor",
-        },
-      ],
+      courses: courses,
     },
   });
   const { fields, append, remove } = useFieldArray({
@@ -42,16 +23,17 @@ const CourseGeneratorForm = () => {
     name: "courses", // unique name for your Field Array
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (d: FormValues) => {
-    setData(
-      d.courses
+  const onSubmit: SubmitHandler<FormValues> = (data: FormValues) => {
+    if (data.courses.length === 0) {
+      resetCourses();
+    } else {
+      data.courses
         .filter((course) => course.type === "course")
-        .map((course) => course)
-    );
+        .map((course, index) => setCourse(course, index));
+    }
+    console.log("data: ", data);
     navigate("/schedules");
   };
-
-  const [data, setData] = useState<SearchResult[]>();
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -62,7 +44,7 @@ const CourseGeneratorForm = () => {
         spacing={1}
       >
         {fields.map((field, index) => (
-          <CourseSelector
+          <CourseSelectorForm
             key={field.id}
             formId={field.id}
             formIndex={index}
@@ -84,7 +66,13 @@ const CourseGeneratorForm = () => {
             variant="outlined"
             color="inherit"
             onClick={() => {
-              append({ name: "", slug: "", type: "professor" });
+              const emptyCourse = {
+                name: "",
+                slug: "",
+                type: "professor",
+              } as SearchResult;
+              append(emptyCourse);
+              addCourse(emptyCourse);
               console.log("Appending");
             }}
             sx={{
@@ -98,8 +86,9 @@ const CourseGeneratorForm = () => {
             color="error"
             onClick={() => {
               remove(fields.length - 1);
+              removeCourse(fields.length - 1);
               console.log("Removing");
-              console.log(fields);
+              console.log("fields: ", fields);
             }}
             sx={{
               width: "100%",
@@ -119,7 +108,6 @@ const CourseGeneratorForm = () => {
         >
           GENERATE
         </Button>
-        <p>{data?.map((d) => d.name + ", ")}</p>
       </Stack>
     </form>
   );

@@ -1,5 +1,14 @@
+import useCoursesStore from "../courses/store";
+
 const SchedulesPage = () => {
-  return <div>SchedulesPage</div>;
+  const courses = useCoursesStore((s) => s.courses);
+  return (
+    <div>
+      {courses.map((c, i) => (
+        <p key={i}>{c.name}</p>
+      ))}
+    </div>
+  );
 };
 
 export default SchedulesPage;
