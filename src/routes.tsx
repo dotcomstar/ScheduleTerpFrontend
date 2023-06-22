@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import SchedulesPage from "./pages/SchedulesPage";
 import PrivateRoutes from "./components/PrivateRoutes";
 import UserProfilePage from "./pages/UserProfilePage";
+import RegisterPage from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
       { path: "login", element: <LoginPage /> },
       { path: "schedules", element: <SchedulesPage /> },
+      { path: "register", element: <RegisterPage /> },
     ],
   },
   {

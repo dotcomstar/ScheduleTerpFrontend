@@ -1,11 +1,12 @@
 import CenteredComponents from "../components/CenteredComponents";
+import RegisterForm from "../components/RegisterForm";
 
-const AboutPage = () => {
+const RegisterPage = () => {
   return (
     <CenteredComponents>
-      <div>AboutPage</div>
+      <RegisterForm />
     </CenteredComponents>
   );
 };
 
-export default AboutPage;
+export default RegisterPage;

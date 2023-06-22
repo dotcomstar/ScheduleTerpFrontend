@@ -1,4 +1,4 @@
-// TODO: Implement logins once we have a real backend
+// TODO: Implement actual logins once we have a real backend
 
 const useAuth = () => ({ user: { id: 1, name: "jlee" } });
 
