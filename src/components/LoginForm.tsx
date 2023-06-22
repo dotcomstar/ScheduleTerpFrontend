@@ -1,24 +1,16 @@
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {
-  Button,
-  FormControl,
-  FormHelperText,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Stack,
-  useFormControl,
-} from "@mui/material";
-import { useMemo, useState } from "react";
+import { Button, FormHelperText, Stack, useFormControl } from "@mui/material";
+import { useMemo } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import useAuthStore from "../auth/store";
+import PasswordField from "./PasswordField";
+import UsernameField from "./UsernameField";
 
-interface LoginFormValues {
+export interface LoginFormValues {
   username: string;
   password: string;
 }
 
-function DummyHelperText() {
+export function DummyHelperText() {
   const { focused, filled } = useFormControl() || {};
 
   const helperText = useMemo(() => {
@@ -33,20 +25,14 @@ function DummyHelperText() {
 }
 
 const LoginForm = () => {
-  const { handleSubmit, control, register } = useForm<LoginFormValues>();
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { handleSubmit, control } = useForm<LoginFormValues>({
+    defaultValues: { username: "", password: "" },
+  });
+  const login = useAuthStore((s) => s.login);
 
-  const onSubmit: SubmitHandler<LoginFormValues> = (d: LoginFormValues) => {
+  const onSubmit: SubmitHandler<LoginFormValues> = (data: LoginFormValues) => {
     console.log("Submitting login info");
-    setLoggedIn(true);
-  };
-
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
+    login(data.username);
   };
 
   return (
@@ -58,44 +44,8 @@ const LoginForm = () => {
           alignItems="center"
           spacing={1}
         >
-          <FormControl
-            sx={{ m: 1, width: { xs: "60%", sm: "30%" } }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-username">Username</InputLabel>
-            <OutlinedInput
-              id="outlined-username"
-              type="text"
-              label="Username"
-            />
-            <DummyHelperText />
-          </FormControl>
-          <FormControl
-            sx={{ m: 1, width: { xs: "60%", sm: "30%" } }}
-            variant="outlined"
-          >
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="outlined-adornment-password"
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-            <DummyHelperText />
-          </FormControl>
+          <UsernameField control={control} />
+          <PasswordField control={control} />
           <Button
             variant="contained"
             color="secondary"
@@ -107,7 +57,6 @@ const LoginForm = () => {
           >
             Login
           </Button>
-          {loggedIn && <p>It's as if you were logged in!</p>}
         </Stack>
       </form>
     </>

@@ -28,11 +28,14 @@
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",
     "react-router-dom": "^6.10.0",
-    "use-debounce": "^9.0.4"
+    "simple-zustand-devtools": "^1.1.0",
+    "use-debounce": "^9.0.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/autosuggest-highlight": "^3.2.0",
     "@types/ms": "^0.7.31",
+    "@types/node": "^20.3.1",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.57.1",

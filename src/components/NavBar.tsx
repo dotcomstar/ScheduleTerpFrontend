@@ -1,10 +1,13 @@
-import { Stack, Button, Box } from "@mui/material";
-import logo from "../assets/logo.webp";
-import ColorModeSwitch from "./ColorModeSwitch";
+import { AccountCircle } from "@mui/icons-material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.webp";
+import useAuthStore from "../auth/store";
+import ColorModeSwitch from "./ColorModeSwitch";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const user = useAuthStore();
   return (
     <Stack
       direction="row"
@@ -34,13 +37,28 @@ const NavBar = () => {
       </Stack>
       <Stack direction="row">
         <ColorModeSwitch />
-        <Button
-          variant="text"
-          aria-label="Login / Register"
-          onClick={() => navigate("/login")}
-        >
-          Login / Register
-        </Button>
+        {user.user ? (
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="primary"
+            onClick={() => navigate("/profile")}
+            sx={{ gap: 1 }}
+          >
+            <AccountCircle />
+            <Typography aria-label="User">{user.user}</Typography>
+          </IconButton>
+        ) : (
+          <Button
+            variant="text"
+            aria-label="Login / Register"
+            onClick={() => navigate("/login")}
+          >
+            Login / Register
+          </Button>
+        )}
       </Stack>
     </Stack>
   );
