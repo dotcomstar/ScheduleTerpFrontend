@@ -11,6 +11,12 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const SchedulesPage = () => {
   const courses = useCoursesStore((s) => s.courses);
+  if (
+    courses.length === 0 ||
+    courses.reduce((acc, c) => acc && c.name === "", true)
+  ) {
+    return <p>No courses selected!</p>;
+  }
   return (
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
       {courses.map(
