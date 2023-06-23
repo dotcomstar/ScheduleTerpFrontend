@@ -1,4 +1,4 @@
-import { Grid, Paper, styled } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import useCoursesStore from "../courses/store";
 import {
   AppointmentModel,
@@ -11,43 +11,22 @@ import {
   Appointments,
   Resources,
 } from "@devexpress/dx-react-scheduler-material-ui";
+
 import React from "react";
+import getAppointments from "../courses/getAppointments";
+import CustomAppointmentTooltip from "../components/CustomAppointmentTooltip";
 
-const getDates = (base: Date, start: string, end: string) => {
-  return {
-    startDate: new Date(base.toISOString().split("T")[0] + "T" + start),
-    endDate: new Date(base.toISOString().split("T")[0] + "T" + end),
-  };
+const sectionTimes = {
+  enes100: ["TuTh 2:00pm-3:15pm", "ENES100"] as const,
+  math100: ["MWF 10:00am-10:50am", "MATH100"] as const,
 };
-
-const parseSectionTimeRe = new RegExp(
-  /^((?:M|(?:Tu)|W|(?:Th)|F)+) (?:(\d+:\d+)(?:am|pm)+)-(?:(\d+:\d+)(?:am|pm)+)$/m
-);
-
-const SectionTimeString = "MWF 10:00am-10:50am";
-const parsed = SectionTimeString.match(parseSectionTimeRe) || [];
-const [_, days, start, end] = parsed.map((s) => s);
-console.log(parsed);
+const course1 = getAppointments(...sectionTimes.enes100, "work");
+const course2 = getAppointments(...sectionTimes.math100, "private");
 
 const firstDate = new Date("2023-08-29T08:00");
-const startDate = new Date(firstDate.toISOString().split("T")[0] + "T" + start);
-const endDate = new Date(firstDate.toISOString().split("T")[0] + "T" + end);
-console.log(startDate);
-console.log(endDate);
 const ThanksgivingDates = {
   startDate: new Date("2023-11-23T00:00"),
   endDate: new Date("2023-11-27T23:59"),
-};
-
-const class1 = {
-  startDate: new Date("2023-08-30T09:00"),
-  endDate: new Date("2023-08-30T09:59"),
-};
-
-const class3 = {
-  ...getDates(firstDate, start, end),
-  title: "3 Test",
-  type: "holiday",
 };
 
 const appointments: Array<AppointmentModel> = [
@@ -68,10 +47,10 @@ const appointments: Array<AppointmentModel> = [
     endDate: "2023-08-29T10:00",
     title: "Test class",
     type: "work",
+    location: "What",
   },
-  { ...class1, title: "Test class 2", type: "work" },
-  { ...class3 },
-  { ...ThanksgivingDates, title: "Thanksgiving", type: "holiday" },
+  ...course1,
+  ...course2,
 ];
 const resources = [
   {
@@ -110,9 +89,10 @@ const SchedulesPage = () => {
               currentDate={currentDate}
               onCurrentDateChange={setCurrentDate}
             />
-            <WeekView startDayHour={7} endDayHour={12} name="Testing" />
+            <WeekView startDayHour={7.5} endDayHour={20} name="Testing" />
 
             <Appointments />
+            <CustomAppointmentTooltip />
             <Resources data={resources} />
           </Scheduler>
         </Paper>
