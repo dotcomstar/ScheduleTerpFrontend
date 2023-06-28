@@ -13,15 +13,18 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 import React from "react";
-import getAppointments from "../courses/getAppointments";
+import getAppointments, {
+  convertToMilitaryTime,
+} from "../courses/getAppointments";
 import CustomAppointmentTooltip from "../components/CustomAppointmentTooltip";
+import useSchedules from "../hooks/useSchedules";
 
 const sectionTimes = {
   enes100: ["TuTh 2:00pm-3:15pm", "ENES100"] as const,
   math100: ["MWF 10:00am-10:50am", "MATH100"] as const,
 };
-const course1 = getAppointments(...sectionTimes.enes100, "work");
-const course2 = getAppointments(...sectionTimes.math100, "private");
+const course1 = getAppointments(...sectionTimes.enes100, "CSIC200", "work");
+const course2 = getAppointments(...sectionTimes.math100, "CSIC200", "private");
 
 const firstDate = new Date("2023-08-29T08:00");
 const ThanksgivingDates = {
@@ -52,6 +55,7 @@ const appointments: Array<AppointmentModel> = [
   ...course1,
   ...course2,
 ];
+
 const resources = [
   {
     fieldName: "type",
@@ -65,7 +69,7 @@ const resources = [
 ];
 
 const SchedulesPage = () => {
-  const courses = useCoursesStore((s) => s.courses);
+  // const courses = useCoursesStore((s) => s.courses);
   // Render an erorr message if there are no courses selected
   // if (
   //   courses.length === 0 ||
@@ -74,31 +78,44 @@ const SchedulesPage = () => {
   //   return <p>No courses selected!</p>;
   // }
 
+  const allSchedules = useSchedules();
+
+  const courses = allSchedules.data.map((schedule) =>
+    schedule.map((course) =>
+      getAppointments(
+        course.lectures,
+        course.class_name,
+        course.section_num,
+        "work"
+      )
+    )
+  );
+
   const [currentDate, setCurrentDate] =
     React.useState<SchedulerDateTime>("2023-08-29");
 
   return (
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-      {/* {courses.map(
-        (c, i) =>
-          c.name !== "" && ( */}
-      <Grid item xs={12} key={1}>
-        <Paper>
-          <Scheduler data={appointments}>
-            <ViewState
-              currentDate={currentDate}
-              onCurrentDateChange={setCurrentDate}
-            />
-            <WeekView startDayHour={7.5} endDayHour={20} name="Testing" />
+      {courses.map(
+        (schedule, i) =>
+          i < 20 && (
+            <Grid item xs={4} key={i}>
+              <Paper>
+                <Scheduler data={schedule.flat()}>
+                  <ViewState
+                    currentDate={currentDate}
+                    onCurrentDateChange={setCurrentDate}
+                  />
+                  <WeekView startDayHour={8} endDayHour={22} name="Testing" />
 
-            <Appointments />
-            <CustomAppointmentTooltip />
-            <Resources data={resources} />
-          </Scheduler>
-        </Paper>
-      </Grid>
-      {/* )
-      )} */}
+                  <Appointments />
+                  <CustomAppointmentTooltip />
+                  <Resources data={resources} />
+                </Scheduler>
+              </Paper>
+            </Grid>
+          )
+      )}
     </Grid>
   );
 };

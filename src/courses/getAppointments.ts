@@ -1,8 +1,13 @@
-const convertToMilitaryTime = (time: string) => {
+export const convertToMilitaryTime = (time: string) => {
   const [hours, minutes] = time.split(":");
-  const pmHours = Number(hours) + 12;
+  const hoursNum = Number(hours);
+  let amHours = hours;
+  if (hoursNum < 10) {
+    amHours = "0" + amHours;
+  }
+  const pmHours = hoursNum == 12 ? hoursNum : hoursNum + 12;
 
-  if (time.endsWith("am")) time = hours + ":" + minutes;
+  if (time.endsWith("am")) time = amHours + ":" + minutes;
   else if (time.endsWith("pm")) time = pmHours.toString() + ":" + minutes;
   return time.substring(0, time.length - 2);
 };
@@ -29,7 +34,12 @@ const daysOfWeek: { [day in string]: Date } = {
   F: new Date("2023-09-01"),
 };
 
-const getAppointments = (sectionTimes: string, title: string, type: string) => {
+const getAppointments = (
+  sectionTimes: string,
+  title: string,
+  sectionNum: string,
+  type: string
+) => {
   const parsed = sectionTimes.match(parseSectionTimeRe) || [];
   const [_, daysClumped, start, end] = parsed.map((s) => s);
   const days = daysClumped.split(parseDays) || [];
@@ -40,7 +50,7 @@ const getAppointments = (sectionTimes: string, title: string, type: string) => {
       ...getDates(daysOfWeek[c], start, end),
       title: title,
       type: type,
-      location: "CSIC2043",
+      location: sectionNum,
     }));
 };
 
