@@ -13,9 +13,7 @@ import {
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 import React from "react";
-import getAppointments, {
-  convertToMilitaryTime,
-} from "../courses/getAppointments";
+import getAppointments from "../courses/getAppointments";
 import CustomAppointmentTooltip from "../components/CustomAppointmentTooltip";
 import useSchedules from "../hooks/useSchedules";
 
@@ -61,9 +59,11 @@ const resources = [
     fieldName: "type",
     title: "Type",
     instances: [
-      { id: "private", text: "Private", color: "#EC407A" },
-      { id: "work", text: "Work", color: "#7E57C2" },
-      { id: "holiday", text: "Holiday", color: "blue" },
+      { id: "private", text: "Private", color: "#5ba300" },
+      { id: "work", text: "Work", color: "#8507a9" },
+      { id: "3", text: "3", color: "#0073e6" },
+      { id: "4", text: "4", color: "#e6308a" },
+      { id: "4", text: "4", color: "#b51963" },
     ],
   },
 ];
@@ -81,12 +81,12 @@ const SchedulesPage = () => {
   const allSchedules = useSchedules();
 
   const courses = allSchedules.data.map((schedule) =>
-    schedule.map((course) =>
+    schedule.map((course, i) =>
       getAppointments(
         course.lectures,
         course.class_name,
         course.section_num,
-        "work"
+        resources[0].instances[i % resources[0].instances.length].id
       )
     )
   );

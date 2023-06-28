@@ -1,4 +1,4 @@
-export const convertToMilitaryTime = (time: string) => {
+const convertToMilitaryTime = (time: string) => {
   const [hours, minutes] = time.split(":");
   const hoursNum = Number(hours);
   let amHours = hours;
