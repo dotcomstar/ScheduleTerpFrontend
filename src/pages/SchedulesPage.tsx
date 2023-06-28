@@ -59,11 +59,11 @@ const resources = [
     fieldName: "type",
     title: "Type",
     instances: [
-      { id: "private", text: "Private", color: "#5ba300" },
-      { id: "work", text: "Work", color: "#8507a9" },
-      { id: "3", text: "3", color: "#0073e6" },
-      { id: "4", text: "4", color: "#e6308a" },
-      { id: "4", text: "4", color: "#b51963" },
+      { id: "1", text: "Course 1", color: "#5ba300" },
+      { id: "2", text: "Course 2", color: "#8507a9" },
+      { id: "3", text: "Course 3", color: "#0073e6" },
+      { id: "4", text: "Course 4", color: "#e6308a" },
+      { id: "5", text: "Course 5", color: "#b51963" },
     ],
   },
 ];
@@ -85,7 +85,7 @@ const SchedulesPage = () => {
       getAppointments(
         course.lectures,
         course.class_name,
-        course.section_num,
+        "Section " + course.section_num,
         resources[0].instances[i % resources[0].instances.length].id
       )
     )
@@ -95,18 +95,23 @@ const SchedulesPage = () => {
     React.useState<SchedulerDateTime>("2023-08-29");
 
   return (
-    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+    <Grid container rowSpacing={4} columnSpacing={{ xs: 2, sm: 3, md: 4 }}>
       {courses.map(
         (schedule, i) =>
           i < 20 && (
-            <Grid item xs={4} key={i}>
+            <Grid item xs={6} key={i}>
               <Paper>
-                <Scheduler data={schedule.flat()}>
+                <Scheduler data={schedule.flat()} height={600}>
                   <ViewState
                     currentDate={currentDate}
                     onCurrentDateChange={setCurrentDate}
                   />
-                  <WeekView startDayHour={8} endDayHour={22} name="Testing" />
+                  <WeekView
+                    name={i.toString()}
+                    startDayHour={8}
+                    endDayHour={22}
+                    excludedDays={[0, 6]}
+                  />
 
                   <Appointments />
                   <CustomAppointmentTooltip />
