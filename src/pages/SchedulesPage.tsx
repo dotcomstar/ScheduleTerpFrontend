@@ -66,7 +66,7 @@ const SchedulesPage = () => {
           i < 20 && (
             <Grid item xs={6} key={i}>
               <Paper sx={{ marginX: { xs: 1, sm: 2, md: 3 }, border: 1 }}>
-                <Scheduler data={schedule.flat()} height="10%">
+                <Scheduler data={schedule.flat()}>
                   <ViewState
                     currentDate={currentDate}
                     onCurrentDateChange={setCurrentDate}
@@ -76,8 +76,25 @@ const SchedulesPage = () => {
                     startDayHour={8}
                     endDayHour={22}
                     excludedDays={[0, 6]}
+                    // timeTableCellComponent={(props: any) => (
+                    //   <WeekView.TimeTableCell
+                    //     {...props}
+                    //     style={{ height: "4vh" }}
+                    //   />
+                    // )}
+                    // timeScaleLabelComponent={(props: any) => (
+                    //   <WeekView.TimeScaleLabel
+                    //     {...props}
+                    //     style={{ height: "4vh" }}
+                    //   />
+                    // )}
+                    // timeScaleTickCellComponent={(props: any) => (
+                    //   <WeekView.TimeScaleTickCell
+                    //     {...props}
+                    //     style={{ height: "4vh" }}
+                    //   />
+                    // )}
                   />
-
                   <Appointments />
                   <CustomAppointmentTooltip />
                   <Resources data={resources} />
