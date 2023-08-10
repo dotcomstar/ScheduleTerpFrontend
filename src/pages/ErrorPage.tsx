@@ -14,7 +14,9 @@ const ErrorPage = () => {
         <Grid item xs={12} marginLeft={2}>
           <h1>Oops...</h1>
           <p>
-            {isRouteErrorResponse(error) ? "Invalid page" : "Unexpected error"}
+            {isRouteErrorResponse(error)
+              ? "Invalid page"
+              : "Unexpected error: "}
           </p>
         </Grid>
       </Grid>

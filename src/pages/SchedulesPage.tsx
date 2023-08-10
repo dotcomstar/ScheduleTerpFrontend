@@ -1,4 +1,4 @@
-import { Grid, Paper } from "@mui/material";
+import { Grid, LinearProgress, Paper } from "@mui/material";
 import useCoursesStore from "../courses/store";
 import { ViewState, SchedulerDateTime } from "@devexpress/dx-react-scheduler";
 import {
@@ -13,11 +13,11 @@ import getAppointments from "../courses/getAppointments";
 import CustomAppointmentTooltip from "../components/CustomAppointmentTooltip";
 import useSchedules from "../hooks/useSchedules";
 
-const firstDate = new Date("2023-08-29T08:00");
-const ThanksgivingDates = {
-  startDate: new Date("2023-11-23T00:00"),
-  endDate: new Date("2023-11-27T23:59"),
-};
+// const firstDate = new Date("2023-08-29T08:00");
+// const ThanksgivingDates = {
+//   startDate: new Date("2023-11-23T00:00"),
+//   endDate: new Date("2023-11-27T23:59"),
+// };
 
 const resources = [
   {
@@ -34,32 +34,51 @@ const resources = [
 ];
 
 const SchedulesPage = () => {
-  // const courses = useCoursesStore((s) => s.courses);
+  const course_names = useCoursesStore((s) => s.courses.map((c) => c.name));
   // Render an erorr message if there are no courses selected
-  // if (
-  //   courses.length === 0 ||
-  //   courses.reduce((acc, c) => acc && c.name === "", true)
-  // ) {
-  //   return <p>No courses selected!</p>;
-  // }
+  if (
+    course_names.length === 0 ||
+    course_names.reduce((acc, c) => acc && c === "", true)
+  ) {
+    return <p>No courses selected!</p>;
+  }
 
-  const allSchedules = useSchedules();
+  const { data, isLoading, error } = useSchedules(
+    course_names.filter((name) => name !== "").join(",")
+  );
+  const allSchedules = data || [[]];
 
-  const courses = allSchedules.data.map((schedule) =>
+  if (error) throw error;
+
+  // TODO: Refactor this
+  const courses = allSchedules.map((schedule) =>
     schedule.map((course, i) =>
-      getAppointments(
-        course.lectures,
-        course.class_name + " - " + course.section_num,
-        "Section " + course.section_num,
-        resources[0].instances[i % resources[0].instances.length].id
-      )
+      typeof course.lectures === "string"
+        ? getAppointments(
+            course.lectures,
+            course.class_name + " - " + course.section_num,
+            "Section " + course.section_num,
+            resources[0].instances[i % resources[0].instances.length].id
+          )
+        : course.lectures
+            .map((lectureTime) =>
+              getAppointments(
+                lectureTime,
+                course.class_name + " - " + course.section_num,
+                "Section " + course.section_num,
+                resources[0].instances[i % resources[0].instances.length].id
+              )
+            )
+            .filter((e) => e !== null)
     )
   );
 
   const [currentDate, setCurrentDate] =
     React.useState<SchedulerDateTime>("2023-08-29");
 
-  return (
+  return isLoading ? (
+    <LinearProgress color="secondary" sx={{ margin: 2 }} />
+  ) : (
     <Grid container rowSpacing={4} columnSpacing={{ xs: 0, md: 1 }}>
       {courses.map(
         (schedule, i) =>

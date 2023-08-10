@@ -40,7 +40,8 @@ const getAppointments = (
   sectionNum: string,
   type: string
 ) => {
-  const parsed = sectionTimes.match(parseSectionTimeRe) || [];
+  const parsed = sectionTimes.match(parseSectionTimeRe);
+  if (!parsed) return null;
   const [_, daysClumped, start, end] = parsed.map((s) => s);
   const days = daysClumped.split(parseDays) || [];
 
