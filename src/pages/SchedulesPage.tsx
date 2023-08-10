@@ -1,11 +1,13 @@
 import { Grid, LinearProgress, Paper } from "@mui/material";
 import useCoursesStore from "../courses/store";
+// @ts-ignore
 import { ViewState, SchedulerDateTime } from "@devexpress/dx-react-scheduler";
 import {
   Scheduler,
   WeekView,
   Appointments,
   Resources,
+  // @ts-ignore
 } from "@devexpress/dx-react-scheduler-material-ui";
 
 import React from "react";

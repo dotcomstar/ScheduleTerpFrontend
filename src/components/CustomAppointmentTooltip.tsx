@@ -1,3 +1,4 @@
+// @ts-ignore
 import { AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
 import Room from "@mui/icons-material/LocationOn";
 import { Grid, styled } from "@mui/material";
