@@ -8,6 +8,7 @@ import SchedulesPage from "./pages/SchedulesPage";
 import PrivateRoutes from "./components/PrivateRoutes";
 import UserProfilePage from "./pages/UserProfilePage";
 import RegisterPage from "./pages/RegisterPage";
+import AuthRoutes from "./components/AuthRoutes";
 
 const router = createBrowserRouter([
   {
@@ -17,8 +18,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> }, // Default component
       { path: "about", element: <AboutPage /> },
-      { path: "login", element: <LoginPage /> },
       { path: "schedules", element: <SchedulesPage /> },
+    ],
+  },
+  {
+    element: <AuthRoutes />,
+    children: [
+      { path: "login", element: <LoginPage /> },
       { path: "register", element: <RegisterPage /> },
     ],
   },
