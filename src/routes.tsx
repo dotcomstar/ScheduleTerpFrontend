@@ -19,22 +19,22 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> }, // Default component
       { path: "about", element: <AboutPage /> },
       { path: "schedules", element: <SchedulesPage /> },
-    ],
-  },
-  {
-    element: <AuthRoutes />,
-    children: [
-      { path: "login", element: <LoginPage /> },
-      { path: "register", element: <RegisterPage /> },
-    ],
-  },
-  {
-    element: <PrivateRoutes />,
-    children: [
       {
-        path: "profile",
-        element: <UserProfilePage />,
-        // children: [{ path: ":username", element: <UserDetail /> }],
+        element: <AuthRoutes />,
+        children: [
+          { path: "login", element: <LoginPage /> },
+          { path: "register", element: <RegisterPage /> },
+        ],
+      },
+      {
+        element: <PrivateRoutes />,
+        children: [
+          {
+            path: "profile",
+            element: <UserProfilePage />,
+            // children: [{ path: ":username", element: <UserDetail /> }],
+          },
+        ],
       },
     ],
   },
