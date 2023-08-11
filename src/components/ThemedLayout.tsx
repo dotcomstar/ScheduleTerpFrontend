@@ -6,7 +6,7 @@ import {
   responsiveFontSizes,
   useMediaQuery,
 } from "@mui/material";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import "../index.css";
 
 export const ColorModeContext = React.createContext({
@@ -18,22 +18,43 @@ interface Props {
 }
 
 const ThemedLayout = ({ children }: Props) => {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [mode, setMode] = React.useState<PaletteMode>("light");
 
-  const [mode, setMode] = React.useState<PaletteMode>(
-    prefersDarkMode ? "dark" : "light"
-  );
+  // TODO: Refactor
+  useEffect(() => {
+    // First check if the user has already set a theme preference.
+    // If not, check if the user already has a specified theme from
+    // their browser.
+    // Defaults to light mode.
+    const existingPreference = localStorage.getItem("theme");
+    if (existingPreference) {
+      existingPreference === "light" ? setMode("light") : setMode("dark");
+    } else {
+      const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+      if (prefersDarkMode) {
+        setMode("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        setMode("light");
+        localStorage.setItem("theme", "light");
+      }
+    }
+  }, []);
 
   const colorMode = React.useMemo(
     () => ({
       // The dark mode switch would invoke this method
       toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) =>
-          prevMode === "light" ? "dark" : "light"
-        );
+        if (mode === "light") {
+          setMode("dark");
+          localStorage.setItem("theme", "dark");
+        } else {
+          setMode("light");
+          localStorage.setItem("theme", "light");
+        }
       },
     }),
-    []
+    [mode]
   );
 
   // Update the theme only if the mode changes

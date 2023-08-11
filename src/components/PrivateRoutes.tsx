@@ -1,12 +1,11 @@
-import { Navigate } from "react-router-dom";
-import Layout from "../pages/Layout";
+import { Navigate, Outlet } from "react-router-dom";
 import useAuthStore from "../auth/store";
 
 const PrivateRoutes = () => {
   const user = useAuthStore((s) => s.user);
 
   if (!user) return <Navigate to="/login" />;
-  return <Layout />;
+  return <Outlet />;
 };
 
 export default PrivateRoutes;
