@@ -16,6 +16,8 @@ interface Props {
   children: ReactNode;
 }
 
+const LogoColor = "#ff5c6d";
+
 const ThemedLayout = ({ children }: Props) => {
   const [mode, setMode] = React.useState<PaletteMode>("light");
 
@@ -67,21 +69,21 @@ const ThemedLayout = ({ children }: Props) => {
         palette: {
           mode: mode === "dark" ? "dark" : "light",
           primary: {
-            light: "#ff5c6d",
-            main: "#ff5c6d",
-            dark: "#ff5c6d",
-            contrastText: "#ff5c6d",
+            light: LogoColor,
+            main: LogoColor,
+            dark: LogoColor,
+            contrastText: LogoColor,
           },
           secondary: {
-            light: "#ff5c6d",
-            main: "#ff5c6d",
-            dark: "#ff5c6d",
+            light: LogoColor,
+            main: LogoColor,
+            dark: LogoColor,
             contrastText: "#000",
           },
           info: {
-            light: "#ff5c6d",
+            light: LogoColor,
             main: "#fff",
-            dark: "#ff5c6d",
+            dark: LogoColor,
             contrastText: "#fff",
           },
         },
