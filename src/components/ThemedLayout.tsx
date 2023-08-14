@@ -68,15 +68,21 @@ const ThemedLayout = ({ children }: Props) => {
           mode: mode === "dark" ? "dark" : "light",
           primary: {
             light: "#ff5c6d",
-            main: "#fff",
+            main: "#ff5c6d",
             dark: "#ff5c6d",
-            contrastText: "#fff",
+            contrastText: "#ff5c6d",
           },
           secondary: {
             light: "#ff5c6d",
             main: "#ff5c6d",
             dark: "#ff5c6d",
             contrastText: "#000",
+          },
+          info: {
+            light: "#ff5c6d",
+            main: "#fff",
+            dark: "#ff5c6d",
+            contrastText: "#fff",
           },
         },
         typography: {

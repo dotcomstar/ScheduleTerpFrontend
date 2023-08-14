@@ -30,6 +30,7 @@ const NavBar = () => {
         <Button
           variant="text"
           aria-label="About"
+          color="info"
           onClick={() => navigate("/about")}
         >
           About
@@ -43,7 +44,7 @@ const NavBar = () => {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            color="primary"
+            color="info"
             onClick={() => navigate("/profile")}
             sx={{ gap: 1 }}
           >
@@ -54,6 +55,7 @@ const NavBar = () => {
           <Button
             variant="text"
             aria-label="Login / Register"
+            color="info"
             onClick={() => navigate("/login")}
           >
             Login / Register
