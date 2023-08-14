@@ -4,7 +4,6 @@ import {
   ThemeProvider,
   createTheme,
   responsiveFontSizes,
-  useMediaQuery,
 } from "@mui/material";
 import React, { ReactNode, useEffect } from "react";
 import "../index.css";
@@ -20,6 +19,11 @@ interface Props {
 const ThemedLayout = ({ children }: Props) => {
   const [mode, setMode] = React.useState<PaletteMode>("light");
 
+  const setModeAndStore = (mode: "light" | "dark") => {
+    setMode(mode);
+    localStorage.setItem("theme", mode);
+  };
+
   // TODO: Refactor
   useEffect(() => {
     // First check if the user has already set a theme preference.
@@ -30,13 +34,13 @@ const ThemedLayout = ({ children }: Props) => {
     if (existingPreference) {
       existingPreference === "light" ? setMode("light") : setMode("dark");
     } else {
-      const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-      if (prefersDarkMode) {
-        setMode("dark");
-        localStorage.setItem("theme", "dark");
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        setModeAndStore("dark");
       } else {
-        setMode("light");
-        localStorage.setItem("theme", "light");
+        setModeAndStore("light");
       }
     }
   }, []);
