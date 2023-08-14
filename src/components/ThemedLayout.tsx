@@ -24,7 +24,6 @@ const ThemedLayout = ({ children }: Props) => {
     localStorage.setItem("theme", mode);
   };
 
-  // TODO: Refactor
   useEffect(() => {
     // First check if the user has already set a theme preference.
     // If not, check if the user already has a specified theme from
