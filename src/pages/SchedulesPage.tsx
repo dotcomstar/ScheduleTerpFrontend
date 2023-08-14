@@ -1,4 +1,4 @@
-import { Grid, LinearProgress, Paper } from "@mui/material";
+import { Box, Grid, LinearProgress, Paper } from "@mui/material";
 import useCoursesStore from "../courses/store";
 // @ts-ignore
 import { ViewState, SchedulerDateTime } from "@devexpress/dx-react-scheduler";
@@ -79,7 +79,10 @@ const SchedulesPage = () => {
     React.useState<SchedulerDateTime>("2023-08-29");
 
   return isLoading ? (
-    <LinearProgress color="secondary" sx={{ margin: 2 }} />
+    <Box sx={{ margin: 2 }}>
+      <p>Generating schedules...</p>
+      <LinearProgress color="secondary" />
+    </Box>
   ) : (
     <Grid container rowSpacing={4} columnSpacing={{ xs: 0, md: 1 }}>
       {courses.map(
