@@ -30,26 +30,24 @@ const resources = [
       { id: "2", text: "Course 2", color: "#8507a9" },
       { id: "3", text: "Course 3", color: "#0073e6" },
       { id: "4", text: "Course 4", color: "#e6308a" },
-      { id: "5", text: "Course 5", color: "#b51963" },
+      { id: "5", text: "Course 5", color: "#E49B0F" },
+      { id: "6", text: "Course 6", color: "#b51963" },
     ],
   },
 ];
 
 const SchedulesPage = () => {
-  const course_names = useCoursesStore((s) => s.courses.map((c) => c.name));
+  const course_names = useCoursesStore((s) =>
+    s.courses.map((c) => c.name)
+  ).filter((name) => name !== "");
+
   // Render an erorr message if there are no courses selected
-  if (
-    course_names.length === 0 ||
-    course_names.reduce((acc, c) => acc && c === "", true)
-  ) {
+  if (course_names.length === 0) {
     return <p>No courses selected!</p>;
   }
 
-  const { data, isLoading, error } = useSchedules(
-    course_names.filter((name) => name !== "").join(",")
-  );
+  const { data, isLoading, error } = useSchedules(course_names.join(","));
   const allSchedules = data || [[]];
-
   if (error) throw error;
 
   // TODO: Refactor this
@@ -60,7 +58,10 @@ const SchedulesPage = () => {
             course.lectures,
             course.class_name + " - " + course.section_num,
             "Section " + course.section_num,
-            resources[0].instances[i % resources[0].instances.length].id
+            resources[0].instances[
+              course_names.findIndex((name) => name === course.class_name) %
+                resources[0].instances.length
+            ].id
           )
         : course.lectures
             .map((lectureTime) =>
@@ -68,7 +69,10 @@ const SchedulesPage = () => {
                 lectureTime,
                 course.class_name + " - " + course.section_num,
                 "Section " + course.section_num,
-                resources[0].instances[i % resources[0].instances.length].id
+                resources[0].instances[
+                  course_names.findIndex((name) => name === course.class_name) %
+                    resources[0].instances.length
+                ].id
               )
             )
             .filter((e) => e !== null)
