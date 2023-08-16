@@ -72,6 +72,7 @@ const SchedulesPage = () => {
               )
             )
             .filter((e) => e !== null)
+            .flat()
     )
   );
 
@@ -90,8 +91,7 @@ const SchedulesPage = () => {
           i < 20 && (
             <Grid item xs={6} key={i}>
               <Paper sx={{ marginX: { xs: 1, sm: 2, md: 3 }, border: 1 }}>
-                <Scheduler data={schedule.flat(2)}>
-                  {/* we pass 2 into array.flat() to flatten up to recursive depth 2 */}
+                <Scheduler data={schedule.flat()}>
                   <ViewState
                     currentDate={currentDate}
                     onCurrentDateChange={setCurrentDate}
