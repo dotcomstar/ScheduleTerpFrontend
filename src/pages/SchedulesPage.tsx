@@ -52,7 +52,7 @@ const SchedulesPage = () => {
 
   // TODO: Refactor this
   const courses = allSchedules.map((schedule) =>
-    schedule.map((course, i) =>
+    schedule.map((course) =>
       typeof course.lectures === "string"
         ? getAppointments(
             course.lectures,
