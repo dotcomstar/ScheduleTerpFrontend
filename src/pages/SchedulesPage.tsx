@@ -80,6 +80,8 @@ const SchedulesPage = () => {
     )
   );
 
+  const weekends = [0, 6];
+
   const [currentDate, setCurrentDate] =
     React.useState<SchedulerDateTime>("2023-08-29");
 
@@ -104,7 +106,7 @@ const SchedulesPage = () => {
                     name={i.toString()}
                     startDayHour={8}
                     endDayHour={22}
-                    excludedDays={[0, 6]}
+                    excludedDays={weekends}
                     // timeTableCellComponent={(props: any) => (
                     //   <WeekView.TimeTableCell
                     //     {...props}
